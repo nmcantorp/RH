@@ -49,7 +49,9 @@ require_once('../class/paginator.php');
         
 
     </script>
-    
+    <script src="../css/bootstrap-3.3.4/js/bootstrap.js" type="text/javascript" >
+        $('.dropdown-toggle').dropdown();
+    </script>
 </head>
 <body>
 

@@ -2,9 +2,9 @@
 /**
 * Clase para la funcionalidad del logueo de los usuarios 
 */
-include_once('conexion2.php');
+include_once('conexion3.php');
 
-class ClassCiudad extends ClassConexion2
+class ClassCiudad extends ClassConexion3
 {	
 	public $resultado = array();
 	
@@ -14,8 +14,8 @@ class ClassCiudad extends ClassConexion2
 	}
 	
 	function get_Ciudades(){
-		$db = new ClassConexion2();
-		$db->Mysql_interno();
+		$db = new ClassConexion3();
+        $db->mysqli();
 
 		$query = "	SELECT
 					ciudades.id_ciudad,
@@ -30,7 +30,7 @@ class ClassCiudad extends ClassConexion2
 					INNER JOIN paises ON paises.id_pais = departamentos.id_pais
 					";
 
-		$consulta = $db->consulta($query);
+		$consulta = $db->consultas($query);
 
 		return $consulta;
 
