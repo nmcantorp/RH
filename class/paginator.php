@@ -29,7 +29,7 @@ class ClassPaginator extends ClassConexion
 			$val_page = $pagina_actual+($count_page-$pagina_actual+1);
 		}
 
-		$html = "<div><ul class='pagination'>";
+		$html = "<div id='divPag'><ul class='pagination'>";
 		if (($pagina_actual-1)==0) {
 			$html.="<li class='disabled'>";
 		}else{

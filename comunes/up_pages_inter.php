@@ -19,6 +19,7 @@ require_once('../class/paginator.php');
     <link rel="stylesheet" type="text/css" media="screen" href="../css/zerogrid.css">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/responsive.css">
     <link rel="stylesheet" href="../font/style.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/master.css">
 
     <!-- Jquery UI-->
 

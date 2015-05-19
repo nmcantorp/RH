@@ -6,7 +6,8 @@
 class ClassConexion
 {
 	public $host 	= 'localhost';
-	public $nomBD 	= 'sialen5_rh';
+	//public $nomBD 	= 'sialen5_rh';
+    public $nomBD 	= 'sialen';
 	public $user 	= 'root';
 	public $pass	= '';
 
@@ -23,7 +24,18 @@ class ClassConexion
 		}
 	}
 
-	public function consulta($consulta){
+    public function MySQLM($user, $pass, $db='*', $privileges='ALL'){
+        mysql_connect($this->host,$this->user,$this->pass) or die(mysql_error());
+        mysql_query("CREATE USER '$user'@'localhost' IDENTIFIED BY '$pass';");
+        mysql_query("GRANT $privileges ON *.* TO '$user'@'localhost'");
+        mysql_query("CREATE USER '$user'@'127.0.0.1' IDENTIFIED BY '$pass';");
+        mysql_query("GRANT $privileges ON *.* TO '$user'@'127.0.0.1'");
+        mysql_query("CREATE USER '$user'@'::1' IDENTIFIED BY '$pass';");
+        mysql_query("GRANT $privileges ON *.* TO '$user'@'::1'");
+        mysql_close();
+    }
+
+	public function consulta($consulta, $type='select'){
 		$this->total_consultas++; 
 		$resultado = mysql_query($consulta,$this->conexion);
 
@@ -31,25 +43,25 @@ class ClassConexion
 			echo 'MySQL Error: ' . mysql_error();
 			exit;
 		}
+        if( $type=='select' ) {
+            if ($this->num_rows($resultado) > 0) {
+                while ($resultados = $this->fetch_array($resultado)) {
+                    $array_result[] = $resultados;
+                }
 
-		if($this->num_rows($resultado)>0){
-			while($resultados = $this->fetch_array($resultado)){ 
-				$array_result[] = $resultados;
-			}
+                for ($i = 0; $i < count($array_result); $i++) {
+                    foreach ($array_result[$i] as $key => $value) {
+                        if (!is_numeric($key)) {
+                            $valores[$i][$key] = $value;
+                        }
+                    }
 
-			for ($i=0; $i < count($array_result); $i++) { 
-				foreach ($array_result[$i] as $key => $value) {
-					if(!is_numeric($key)){
-						$valores[$i][$key] = $value;
-					}
-				}
-				
-			}
-		}else{
-			return "Resultados en Blanco";
-		}
-
-		return $valores;
+                }
+            } else {
+                return "Resultados en Blanco";
+            }
+            return $valores;
+        }
 	}
 
 	public function columnas($consulta)
